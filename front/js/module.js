@@ -230,8 +230,8 @@ export class Panier{
         let prixtotal = 0;
      
         for (const key in panier) {
-            let config = await Objfetch.recupConfig(panier[key].id);
-            prixtotal += panier[key].quantity*config.price;
+            let recupreponsefetch = await Objfetch.recupConfig(panier[key].id);
+            prixtotal += panier[key].quantity*recupreponsefetch.price;
         }
         
         return document.querySelector('#totalPrice').textContent = prixtotal; 
@@ -272,7 +272,7 @@ export class Panier{
         panier = panier.filter(valeur => valeur.id != id) && panier.filter(valeur => valeur.color != color);
         this.save(panier);
     }
-
+    // vide ke panier
     static viderLePanier(){
         localStorage.clear(); 
     }

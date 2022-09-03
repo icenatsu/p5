@@ -4,14 +4,14 @@ import {Objfetch, Panier, ValidationFormulaire} from "./module.js";
 let panier = Panier.recupProd();
 // Boucle sur la panier
 for (const key in panier) {
-    // Appel fetch et assignation à un objet
-    let config = await Objfetch.recupConfig(panier[key].id);
+    // Appel fetch et assigne le résultat à un objet
+    let reponse = await Objfetch.recupConfig(panier[key].id);
     
     // Ajout de la couleur et la quantité à l'objet
-    config.color = panier[key].color;
-    config.quantity = panier[key].quantity;
+    reponse.color = panier[key].color;
+    reponse.quantity = panier[key].quantity;
     // Création de la structure 
-    config.structureProdPageCart();
+    reponse.structureProdPageCart();
 }
 
 // Appel du Total du panier et nombre d'articles

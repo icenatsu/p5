@@ -3,9 +3,9 @@ import {Objfetch} from './module.js';
 afficherLesProduits();
 // Appel fetch
 async function afficherLesProduits(){
-   // Appel fetch et assignation à un objet
-   let config = await Objfetch.recupConfig('');
+   // Appel fetch et assigne le résultat à un objet
+   let reponse = await Objfetch.recupConfig('');
 
    // Création de la structure
-   config.structureProdIndex();
+   reponse.structureProdIndex();
 }

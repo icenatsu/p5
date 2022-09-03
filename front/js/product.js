@@ -7,11 +7,11 @@ async function voirLesProduits(){
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
 
-    // Appel fetch + Assigne à un objet
-    let config = await Objfetch.recupConfig(id);
+    // Appel fetch et assigne le résultat à un objet
+    let reponse = await Objfetch.recupConfig(id);
 
     // Appel pour la création de la structure
-    config.structureProdPageProduct();
+    reponse.structureProdPageProduct();
 
     // Gestionnaire d'évenement du bouton pour Ajouter au panier
     const buttonAddCard = document.querySelector('#addToCart');

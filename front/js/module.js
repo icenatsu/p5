@@ -150,80 +150,8 @@ export class Objfetch {
         souscontainersettings.append(quantity, input);
         containerdelete.append(buttondelete);
     }
-}
 
-/////////////////////////////////////////////////////////////////////////////////
-//////////////// FONCTIONNALITE DU PANIER ///////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
-
-const nomLS = 'Kanap';
-
-export class Panier{
-
-    // Recupération des produits du localstorage
-    static recupProd(){
-        let panier = localStorage.getItem(nomLS);
-        return (panier != null) ? JSON.parse(panier) : [];
-    }
-    // Enregistrer le panier dans le localstorage
-    static save(panier) {
-        localStorage.setItem(nomLS, JSON.stringify(panier));
-    }
-    // Ajouter le produit au panier
-    static add(produit){
-        
-        let panier = this.recupProd();
-        // Conversion de la quantité saisie d'une string en nombre
-        let quantiteval = Number(quantity.value);
-        
-        // Si quantité saisie supérieure à 0 et inférieure à 101 et que la couleur saisie est bien renseignée
-        if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
-
-            if (panier.length <= 0){ // Si Panier vide
-
-                // La quantité du produit est égale à la quantité saisie
-                produit.quantity = quantiteval;
-                // On pousse la quantité dans le panier et on sauvegarde
-                panier.push(produit);
-                this.save(panier);
-                // Appel de la structure de confirmation
-                this.structureConfirmation();
-
-            }else{ // Panier contenant déjà 1 ou plusieurs produits
-                
-                // On recherche si le produit existe déjà dans le panier
-                let trouverProduit = panier.find(valeur => valeur.id == produit.id) && panier.find(valeur => valeur.color == produit.color);  
-                // Si le produit existe dans le panier
-                if(trouverProduit !== undefined){
-                    // Si la quantité du produit existant + la quantité saisie n'excède pas les 100 unités
-                    if (trouverProduit.quantity + quantiteval < 101){
-                        // alors la quantité saisie s'ajoute au produit existant et on sauvegarde
-                        trouverProduit.quantity += quantiteval;
-                        this.save(panier);
-                        // Appel de la structure de confirmation
-                        this.structureConfirmation();
-                    }else{
-                        alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
-                    }
-                }else{
-                    // Si le produit n'existe pas déjà dans le panier alors le produit voit sa quantité égale à la quantité saisie
-                    produit.quantity = quantiteval;
-                    // on pousse la valeur dans le panier et on le sauvegarde
-                    panier.push(produit);
-                    this.save(panier);
-                    // Appel de la structure de confirmation
-                    this.structureConfirmation();
-                    // alert(`Votre commande est bien prise en compte et à été ajoutée au panier`);
-                    // window.location.assign("cart.html");
-                }          
-            } 
-        }else{
-            alert(`Veuillez entrer une quantité comprise entre 1 et 100 ainsi qu'une couleur.`)
-        } 
-    }   
-
-    static structureConfirmation(){
+    structureConfirmation(){
 
         // Selection de la div portant la classe content
         let content = document.querySelector('.item__content');
@@ -290,7 +218,78 @@ export class Panier{
         content.appendChild(containerconfirmation)
         containerconfirmation.append(validation, lien, buttonfermer);
     }
-    
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//////////////// FONCTIONNALITE DU PANIER ///////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////
+
+
+const nomLS = 'Kanap';
+
+export class Panier{
+
+    // Recupération des produits du localstorage
+    static recupProd(){
+        let panier = localStorage.getItem(nomLS);
+        return (panier != null) ? JSON.parse(panier) : [];
+    }
+    // Enregistrer le panier dans le localstorage
+    static save(panier) {
+        localStorage.setItem(nomLS, JSON.stringify(panier));
+    }
+    // Ajouter le produit au panier
+    static add(produit){
+        
+        let panier = this.recupProd();
+        // Conversion de la quantité saisie d'une string en nombre
+        let quantiteval = Number(quantity.value);
+        
+        // Si quantité saisie supérieure à 0 et inférieure à 101 et que la couleur saisie est bien renseignée
+        if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
+
+            if (panier.length <= 0){ // Si Panier vide
+
+                // La quantité du produit est égale à la quantité saisie
+                produit.quantity = quantiteval;
+                // On pousse la quantité dans le panier et on sauvegarde
+                panier.push(produit);
+                this.save(panier);
+                // Appel de la structure de confirmation
+                new Objfetch().structureConfirmation();
+
+            }else{ // Panier contenant déjà 1 ou plusieurs produits
+                
+                // On recherche si le produit existe déjà dans le panier
+                let trouverProduit = panier.find(valeur => valeur.id == produit.id) && panier.find(valeur => valeur.color == produit.color);  
+                // Si le produit existe dans le panier
+                if(trouverProduit !== undefined){
+                    // Si la quantité du produit existant + la quantité saisie n'excède pas les 100 unités
+                    if (trouverProduit.quantity + quantiteval < 101){
+                        // alors la quantité saisie s'ajoute au produit existant et on sauvegarde
+                        trouverProduit.quantity += quantiteval;
+                        this.save(panier);
+                        // Appel de la structure de confirmation
+                        new Objfetch().structureConfirmation();
+           
+                    }else{
+                        alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
+                    }
+                }else{
+                    // Si le produit n'existe pas déjà dans le panier alors le produit voit sa quantité égale à la quantité saisie
+                    produit.quantity = quantiteval;
+                    // on pousse la valeur dans le panier et on le sauvegarde
+                    panier.push(produit);
+                    this.save(panier);
+                    // Appel de la structure de 
+                    new Objfetch().structureConfirmation();
+                }          
+            } 
+        }else{
+            alert(`Veuillez entrer une quantité comprise entre 1 et 100 ainsi qu'une couleur.`)
+        } 
+    }   
+
     // Prix total du panier
     static async prixTotalDuPanier(){
         let panier = this.recupProd();
@@ -370,7 +369,7 @@ export class ValidationFormulaire{
         // regex  
         let regexFirstnameandLastname = /^([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20}-{0,1})?([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20})$/;
         let regexAddress = /^[a-zA-Z0-9 àâäéèêëïîôöùûüçs,'-]{5,50}$/;
-        let regexCity = /^[a-zA-Z àâäéèêëïîôöùûüç,.'-]{1,30}$/;
+        let regexCity = /^[a-zA-Z àâäéèêëïîôöùûüç,.'-]{1,40}$/;
         let regexemail = /^[a-z0-9.-_]+[@]{1}[a-z0-9.-_]+[.]{1}[a-z]{2,10}$/;
         // Test des différents champs input en fonction des regex
         let testfirstname = regexFirstnameandLastname.test(this.firstName);

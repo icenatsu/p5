@@ -24,7 +24,7 @@ Panier.nbreArticleDuPanier();
 let inputQuantity = document.querySelectorAll('.itemQuantity');
 inputQuantity.forEach(element => {
     element.addEventListener('change', (e) =>{
-        Panier.changeQuantite(e.target.value, e.target.closest(".cart__item").dataset.id,  e.target.closest(".cart__item").dataset.color);
+        Panier.changeQuantite(e.target, e.target.value, e.target.closest(".cart__item").dataset.id,  e.target.closest(".cart__item").dataset.color);
         Panier.prixTotalDuPanier();
         Panier.nbreArticleDuPanier();
     });
@@ -48,9 +48,7 @@ buttondelete.forEach(element => {
 let contact = new ValidationFormulaire;
 let products = [];
 
-// GESTIONNAIRE EVENEMENT
 const buttoncommande = document.getElementById('order');
-
 buttoncommande.addEventListener('click', (e) =>{
     e.preventDefault();
 
@@ -59,39 +57,37 @@ buttoncommande.addEventListener('click', (e) =>{
     const address = document.getElementById('address');
     const city = document.getElementById('city');
     const email = document.getElementById('email');
+    
+    contact.firstName = firstName.value;
+    contact.lastName = lastName.value;
+    contact.address = address.value;
+    contact.city = city.value;
+    contact.email = email.value;
 
     let panier = Panier.recupProd();
 
     if(panier == [] || panier == ''){
         alert('Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.')
     }else{
+        if(contact.valid()){
 
-        let nbreerror = 5;
-        if(contact.ckeckInputError(nbreerror, contact) == 0){
-
-        contact.firstName = firstName.value;
-        contact.lastName = lastName.value;
-        contact.address = address.value;
-        contact.city = city.value;
-        contact.email = email.value;
-
-        window.alert('Votre commande à bien été prise en compte');
+            window.alert('Votre commande à bien été prise en compte');
         
-        for (let i = 0; i < panier.length; i++) {
-            products.push((panier[i].id));
-        };
+            for (let i = 0; i < panier.length; i++) {
+                products.push((panier[i].id));
+            };
 
-        let order = {
-            contact: contact,
-            products : products
-        };
- 
-        envoieCommande(order);
-                
+            let order = {
+                contact: contact,
+                products : products
+            };
+
+            envoieCommande(order);
+                    
         }else{
             window.alert('Veuillez renseignez toutes vos coordonnées afin que nous puissions vous livrer votre commande.')
         }
-    }    
+    }
 });
 
 function envoieCommande(order){
@@ -109,7 +105,6 @@ function envoieCommande(order){
         window.location.assign("confirmation.html?id=" + orderId)
     });
 }
-
 
 
 

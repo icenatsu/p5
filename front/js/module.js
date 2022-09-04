@@ -187,9 +187,8 @@ export class Panier{
                 // On pousse la quantité dans le panier et on sauvegarde
                 panier.push(produit);
                 this.save(panier);
-                // Confirme la commande et redirige sur la page cart
-                alert(`Votre commande est bien prise en compte et à été ajoutée au panier`);
-                window.location.assign("cart.html");
+                // Appel de la structure de confirmation
+                this.structureConfirmation();
 
             }else{ // Panier contenant déjà 1 ou plusieurs produits
                 
@@ -202,27 +201,95 @@ export class Panier{
                         // alors la quantité saisie s'ajoute au produit existant et on sauvegarde
                         trouverProduit.quantity += quantiteval;
                         this.save(panier);
-                        // Confirme la commande et redirige sur la page cart
-                        alert(`Votre commande est bien prise en compte et à été ajoutée au panier`);
-                        window.location.assign("cart.html");
+                        // Appel de la structure de confirmation
+                        this.structureConfirmation();
                     }else{
                         alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
                     }
                 }else{
-                    //si le produit n'existe pas déjà dans le panier alors le produit voit sa quantité égale à la quantité saisie
+                    // Si le produit n'existe pas déjà dans le panier alors le produit voit sa quantité égale à la quantité saisie
                     produit.quantity = quantiteval;
                     // on pousse la valeur dans le panier et on le sauvegarde
                     panier.push(produit);
                     this.save(panier);
-                    // Confirme la commande et redirige sur la page cart
-                    alert(`Votre commande est bien prise en compte et à été ajoutée au panier`);
-                    window.location.assign("cart.html");
+                    // Appel de la structure de confirmation
+                    this.structureConfirmation();
+                    // alert(`Votre commande est bien prise en compte et à été ajoutée au panier`);
+                    // window.location.assign("cart.html");
                 }          
             } 
         }else{
             alert(`Veuillez entrer une quantité comprise entre 1 et 100 ainsi qu'une couleur.`)
         } 
     }   
+
+    static structureConfirmation(){
+
+        // Selection de la div portant la classe content
+        let content = document.querySelector('.item__content');
+        content.style.position = "relative";
+
+        // Conteneur la confirmation
+        let containerconfirmation = document.createElement('div');
+        containerconfirmation.setAttribute('id', 'containerconfirmation');
+        containerconfirmation.style.justifyContent = 'center';
+        containerconfirmation.style.display = 'flex';
+        containerconfirmation.style.flexDirection = 'column';
+        containerconfirmation.style.alignItems = 'center';
+        containerconfirmation.style.width = '80%';
+        containerconfirmation.style.height = '40%';
+        containerconfirmation.style.border = "1px solid transparent"
+        containerconfirmation.style.borderRadius = "30px"
+        containerconfirmation.style.background = "rgba(255, 255, 255, 0.99)"
+        containerconfirmation.style.position = "absolute";
+        containerconfirmation.style.left = '50%';
+        containerconfirmation.style.top = '50%'
+        containerconfirmation.style.transform = 'translate(-50%, -50%)';
+        containerconfirmation.style.color = 'black';
+        containerconfirmation.style.textAlign = 'center';
+        
+        // Description de la validation
+        let validation = document.createElement('p');
+        validation.textContent = "Votre commande est bien prise en compte et a été ajoutée au panier. Veuillez continuer vos achats ou accéder au panier.";
+        
+        // Lien vers le panier
+        let lien = document.createElement('a');
+        lien.href = "http://127.0.0.1:58252/front/html/cart.html"
+        lien.textContent = "Panier";
+        lien.style.color = "blue";
+        lien.style.fontWeight = "600";
+        lien.style.textDecoration = "none";
+        
+        // Bouton fermer 
+        let buttonfermer = document.createElement('button');
+        buttonfermer.textContent = 'X';
+        buttonfermer.style.position = 'absolute';
+        buttonfermer.style.top = '15px';
+        buttonfermer.style.right = '15px';
+        buttonfermer.style.color = "red";
+        buttonfermer.style.border = "2px solid red"
+        buttonfermer.style.borderRadius = "50%";
+        buttonfermer.style.fontSize = "15px";
+        buttonfermer.style.height = "25px";
+        
+        // Gestionnaire d'évenements sur le bouton fermer
+        buttonfermer.addEventListener('mouseover', () =>{
+            buttonfermer.style.transform = "scale(1.1)";
+        })
+        
+        buttonfermer.addEventListener('mouseleave', () =>{
+            buttonfermer.style.color = "red";
+            buttonfermer.style.transform = "scale(1)";
+        })
+        
+        buttonfermer.addEventListener('click', () =>{
+            containerconfirmation.remove();
+        })
+        
+        // NODE
+        content.appendChild(containerconfirmation)
+        containerconfirmation.append(validation, lien, buttonfermer);
+    }
     
     // Prix total du panier
     static async prixTotalDuPanier(){
@@ -249,15 +316,17 @@ export class Panier{
         return document.querySelector('#totalQuantity').textContent = totalquantity; 
     }
     // Changer la quantité d'un produit
-    static changeQuantite(quantity, id, color){
-
+    static changeQuantite(element, quantity, id, color){
+        let test = 0;
         let panier = this.recupProd();
         quantity = Number(quantity);
 
         if(quantity <= 0){
             alert('Vous ne pouvez pas entrer une valeur négative ou égale à 0. Pour supprimer le produit veuillez cliquer sur supprimer.');
         }else if(quantity > 100){
+            let trouverProduit = panier.find(p => p.id == id) && panier.find(valeur => valeur.color == color);
             alert('Vous ne pouvez pas entrer une quantité supérieure à 100.');
+            element.value = trouverProduit.quantity;
         }else{
             let trouverProduit = panier.find(p => p.id == id) && panier.find(valeur => valeur.color == color);
             if(trouverProduit != undefined){
@@ -284,67 +353,68 @@ export class Panier{
 
 export class ValidationFormulaire{
     // Construction de l'objet du formulaire
-    constructor(firstName, lastName, address, city, email){
+    constructor(){
 
-        this.firstName = "";
-        this.lastName = "";
-        this.address = "";
-        this.city = "";
-        this.email = "";
+        this.firstName = "",
+        this.lastName = "",
+        this.address = "",
+        this.city = "",
+        this.email = ""
 
         return this;
     }
 
     // Phase de test des champs via les regex et affichages des messages d'erreurs en conséquence
-    valid(element, regex, elementerror, id, type){
-        
-        let valid = false;
-        let test = regex.test(element);
-        
-        elementerror = document.getElementById(id);
+    valid(){
 
-        if(test){
-            elementerror.innerText = "";
-            valid = true;
-        }else{    
+        // regex  
+        let regexFirstnameandLastname = /^([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20}-{0,1})?([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20})$/;
+        let regexAddress = /^[a-zA-Z0-9 àâäéèêëïîôöùûüçs,'-]{5,50}$/;
+        let regexCity = /^[a-zA-Z àâäéèêëïîôöùûüç,.'-]{1,30}$/;
+        let regexemail = /^[a-z0-9.-_]+[@]{1}[a-z0-9.-_]+[.]{1}[a-z]{2,10}$/;
+        // Test des différents champs input en fonction des regex
+        let testfirstname = regexFirstnameandLastname.test(this.firstName);
+        let testlastname = regexFirstnameandLastname.test(this.lastName);
+        let testaddress = regexAddress.test(this.address);
+        let testcity = regexCity.test(this.city);
+        let testemail = regexemail.test(this.email);
 
-                if(type == 'firstName'){
-                    elementerror.textContent = "Le prénom doit comporter 3 lettres minimum sans chiffres merci !!!";
-                }
-                if(type == 'name'){
-                    elementerror.textContent = "Le nom doit comporter 3 lettres minimum sans chiffres merci !!!";
-                }
-                if(type == 'address'){
-                    elementerror.textContent = "Merci de renseigner une adresse valide, max 50 caractères";
-                }
-                if(type == 'city'){
-                    elementerror.textContent = "Merci de renseigner votre lieu d'habitation";
-                }
-                if(type == 'email'){
-                    elementerror.textContent = "Email non valide";
-                }   
-                valid = false;
+        let contactvalid = true;
+
+        if(!testfirstname){
+            contactvalid = false;
+            firstName.nextElementSibling.textContent = "Le prénom doit comporter 3 lettres minimum sans chiffres merci !!!";
+            
+        }else{
+            firstName.nextElementSibling.textContent = "";
         }
-        return valid;
-    }
-    
-    ckeckInputError(nbreerror, element){ 
-    
-        if(element.valid(firstName.value, /^([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20}-{0,1})?([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20})$/, firstName.nextElementSibling, 'firstNameErrorMsg', 'firstName')){
-            nbreerror--;
+        if(!testlastname){
+            contactvalid = false;
+            lastName.nextElementSibling.textContent = "Le nom doit comporter 3 lettres minimum sans chiffres merci !!!";
+        }else{
+            lastName.nextElementSibling.textContent = ""; 
         }
-        if(element.valid(lastName.value, /^([[a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20}-{0,1})?([[a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20})$/, lastName.nextElementSibling, 'lastNameErrorMsg', 'name')){
-            nbreerror--;
+        if(!testaddress){
+            contactvalid = false;
+            address.nextElementSibling.textContent = "Merci de renseigner une adresse valide, max 50 caractères";
         }
-        if(element.valid(address.value, /^[a-zA-Z0-9 àâäéèêëïîôöùûüçs,'-]{5,50}$/, address.nextElementSibling, 'addressErrorMsg', 'address')){
-            nbreerror--;
+        else{
+            address.nextElementSibling.textContent = "";
         }
-        if(element.valid(city.value, /^[a-zA-Z àâäéèêëïîôöùûüç,.'-]{1,30}$/, city.nextElementSibling, 'cityErrorMsg', 'city')){
-            nbreerror--;
+        if(!testcity){
+            contactvalid = false;
+            city.nextElementSibling.textContent = "Merci de renseigner votre lieu d'habitation";
+        }else{
+            city.nextElementSibling.textContent = "";
         }
-        if(element.valid(email.value, /^[a-z0-9.-_]+[@]{1}[a-z0-9.-_]+[.]{1}[a-z]{2,10}$/, email.nextElementSibling, 'emailErrorMsg', 'email')){
-            nbreerror--;
+        if(!testemail){
+            contactvalid = false;
+            email.nextElementSibling.textContent = "Email non valide";
+        }else{
+            email.nextElementSibling.textContent = "";
         }
-        return nbreerror;
+
+        return contactvalid;
     }
 }
+

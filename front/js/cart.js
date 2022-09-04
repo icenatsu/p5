@@ -67,7 +67,12 @@ buttoncommande.addEventListener('click', (e) =>{
     let panier = Panier.recupProd();
 
     if(panier == [] || panier == ''){
-        alert('Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.')
+        alert('Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.');
+        firstName.value = "";
+        lastName.value = "";
+        address.value = "";
+        city.value = "";
+        email.value = "";
     }else{
         if(contact.valid()){
 

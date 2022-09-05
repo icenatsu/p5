@@ -2,15 +2,19 @@ import {Objfetch, Panier, ValidationFormulaire} from "./module.js";
  
 // Récupétation du panier
 let panier = Panier.recupProd();
+
 let containerpanier = document.querySelector('#cartAndFormContainer');
 containerpanier.style.position = "relative";
 let formulaire = document.querySelector('.cart__order__form');
 let carteprice = document.querySelector('.cart__price');
 
+// new Objfetch().responsive();
+
 if(panier == [] || panier == ''){
-    new Objfetch().structuremodale(containerpanier, 'Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.', "none", "none", "none", '60%', '100%', "inline");  
+    new Objfetch().structuremodale(containerpanier, "60%", "100%");
     formulaire.style.display = "none";
     carteprice.style.display = "none";
+    new Objfetch().structureinsidemodalepagepanier();
 }
 
 // Boucle sur la panier
@@ -51,9 +55,10 @@ buttondelete.forEach(element => {
         Panier.nbreArticleDuPanier();
         let panier = Panier.recupProd();
         if(panier == [] || panier == ''){
-            new Objfetch().structuremodale(containerpanier, 'Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.', "none", "none", "none", '60%', '100%', "inline");  
+            new Objfetch().structuremodale(containerpanier, "60%", "100%");
             formulaire.style.display = "none";
             carteprice.style.display = "none";
+            new Objfetch().structureinsidemodalepagepanier();
         }
     });
 });

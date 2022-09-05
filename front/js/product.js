@@ -1,6 +1,7 @@
 // Importation de la page panier
 import {Objfetch, Panier} from "./module.js";
 
+
 async function voirLesProduits(){
 
     //Récupération id

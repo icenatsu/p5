@@ -1,5 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////////
-//////////////// Fetch / Object / Structure /////////////////////////////////////
+//////////////// Fetch / Object / Structures ////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
 export class Objfetch {
@@ -171,23 +171,35 @@ export class Objfetch {
         containerconfirmation.style.background = "rgba(255, 255, 255, 0.99)"
         containerconfirmation.style.position = "absolute";
         containerconfirmation.style.left = '50%';
-        containerconfirmation.style.top = '50%'
+        containerconfirmation.style.top = '53%'
         containerconfirmation.style.transform = 'translate(-50%, -50%)';
         containerconfirmation.style.color = 'black';
         containerconfirmation.style.textAlign = 'center';
-        
+        containerconfirmation.style.padding = "30px"
+        containerconfirmation.style.boxShadow = "5px 5px rgba(0, 0, 0, 0.3)"
+
         // Description de la validation
         let validation = document.createElement('p');
-        validation.textContent = "Votre commande est bien prise en compte et a été ajoutée au panier. Veuillez continuer vos achats ou accéder au panier.";
-        
+        validation.textContent = "Votre commande est bien prise en compte et a été ajoutée au panier.";
+        validation.style.fontSize = "19px";
+
+        // Lien continuer vos achats
+        let lienachat = document.createElement('div');
+        lienachat.textContent = "Continuer vos achats";
+        lienachat.style.color = "blue";
+        lienachat.style.fontWeight = "600";
+        lienachat.style.marginTop = '15px';
+
+
         // Lien vers le panier
-        let lien = document.createElement('a');
-        lien.href = "http://127.0.0.1:58252/front/html/cart.html"
-        lien.textContent = "Panier";
-        lien.style.color = "blue";
-        lien.style.fontWeight = "600";
-        lien.style.textDecoration = "none";
-        
+        let lienpanier = document.createElement('a');
+        lienpanier.href = "./cart.html"
+        lienpanier.textContent = "Accéder au panier";
+        lienpanier.style.color = "blue";
+        lienpanier.style.fontWeight = "600";
+        lienpanier.style.textDecoration = "none";
+        lienpanier.style.marginTop = '15px';
+
         // Bouton fermer 
         let buttonfermer = document.createElement('button');
         buttonfermer.textContent = 'X';
@@ -199,24 +211,75 @@ export class Objfetch {
         buttonfermer.style.borderRadius = "50%";
         buttonfermer.style.fontSize = "15px";
         buttonfermer.style.height = "25px";
-        
+
+        // Gestionnaire d'évenements sur le lien achat
+        lienachat.addEventListener('click', () =>{
+            containerconfirmation.remove();
+        })
+
+        lienachat.addEventListener('mouseover', () =>{
+            lienachat.style.cursor = "pointer";
+        })
+
         // Gestionnaire d'évenements sur le bouton fermer
         buttonfermer.addEventListener('mouseover', () =>{
             buttonfermer.style.transform = "scale(1.1)";
         })
-        
+
         buttonfermer.addEventListener('mouseleave', () =>{
             buttonfermer.style.color = "red";
             buttonfermer.style.transform = "scale(1)";
         })
-        
+
         buttonfermer.addEventListener('click', () =>{
             containerconfirmation.remove();
         })
-        
+
         // NODE
         content.appendChild(containerconfirmation)
-        containerconfirmation.append(validation, lien, buttonfermer);
+        containerconfirmation.append(validation, lienachat, lienpanier, buttonfermer);
+    }
+
+    structurePanierVide(){
+        let containerpanier = document.querySelector('#cartAndFormContainer');
+        containerpanier.style.position = "relative";
+        
+        let containerpaniervide = document.createElement('div');
+        containerpaniervide.setAttribute('id', 'paniervide');
+        containerpaniervide.style.display = "flex";
+        containerpaniervide.style.flexDirection = "column";
+        containerpaniervide.style.justifyContent = "center";
+        containerpaniervide.style.alignItems = "center";
+        containerpaniervide.style.width = '45%';
+        containerpaniervide.style.height = '20%';
+        containerpaniervide.style.border = '1px solid transparent';
+        containerpaniervide.style.borderRadius = '30px'
+        containerpaniervide.style.background = "white"
+        containerpaniervide.style.position = "absolute";
+        containerpaniervide.style.top = '100px';
+        containerpaniervide.style.left = '50%';
+        containerpaniervide.style.transform = 'translateX(-50%)';
+        containerpaniervide.style.padding = "10px";
+
+        let descriptionpaniervide = document.createElement('p');
+        descriptionpaniervide.textContent = "Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.";
+        descriptionpaniervide.style.color = "black";
+        descriptionpaniervide.style.textAlign = "center";
+
+        let lienachat = document.createElement('a');
+        lienachat.href = "./index.html";
+        lienachat.textContent = "Catalogue des canapés";
+        lienachat.style.textDecoration = "none";
+        lienachat.style.color = "blue";
+        lienachat.style.fontWeight = "600";
+
+        let cartprice = document.querySelector('.cart__price');
+        // cartprice.style.display = "none";
+
+
+        // NODE
+        containerpanier.append(containerpaniervide);
+        containerpaniervide.append(descriptionpaniervide, lienachat);
     }
 }
 

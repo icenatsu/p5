@@ -2,6 +2,10 @@ import {Objfetch, Panier, ValidationFormulaire} from "./module.js";
 
 // Récupétation du panier
 let panier = Panier.recupProd();
+if(panier == [] || panier == ''){
+    new Objfetch().structurePanierVide();
+}
+
 // Boucle sur la panier
 for (const key in panier) {
     // Appel fetch et assigne le résultat à un objet
@@ -38,6 +42,10 @@ buttondelete.forEach(element => {
         e.target.closest(".cart__item").remove();
         Panier.prixTotalDuPanier();
         Panier.nbreArticleDuPanier();
+        let panier = Panier.recupProd();
+        if(panier == [] || panier == ''){
+            new Objfetch().structurePanierVide();
+        }
     });
 });
 
@@ -48,7 +56,7 @@ buttondelete.forEach(element => {
 let contact = new ValidationFormulaire;
 let products = [];
 
-const buttoncommande = document.getElementById('order');
+const buttoncommande = document.querySelector('#order');
 buttoncommande.addEventListener('click', (e) =>{
     e.preventDefault();
 
@@ -67,7 +75,13 @@ buttoncommande.addEventListener('click', (e) =>{
     let panier = Panier.recupProd();
 
     if(panier == [] || panier == ''){
-        alert('Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.');
+
+        let containerpaniervide = document.querySelector('#paniervide') 
+        containerpaniervide.style.transition = '0.5s';
+        containerpaniervide.style.color = "rgba(255, 58, 0, 0.8)";
+        containerpaniervide.style.border = "2px dashed blue";
+
+
         firstName.value = "";
         lastName.value = "";
         address.value = "";
@@ -75,9 +89,6 @@ buttoncommande.addEventListener('click', (e) =>{
         email.value = "";
     }else{
         if(contact.valid()){
-
-            window.alert('Votre commande à bien été prise en compte');
-        
             for (let i = 0; i < panier.length; i++) {
                 products.push((panier[i].id));
             };

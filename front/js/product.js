@@ -29,4 +29,3 @@ async function voirLesProduits(){
 
 voirLesProduits();
 
-

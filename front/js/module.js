@@ -151,57 +151,24 @@ export class Objfetch {
         containerdelete.append(buttondelete);
     }
 
-    structuremodale(parent, message, displaylienachat, displaylienpanier, displaybuttonfermer, largeurModale, hauteurModale, displaylienindex){
+    structureinsidemodalepageproduit(){
 
-        const media600plus = window.matchMedia("(min-width:600px)");
-        const media600moins = window.matchMedia("(max-width:600px)");
-
-        // Conteneur la confirmation
-        let containermodale = document.createElement('div');
-        containermodale.setAttribute('id', 'containerconfirmation');
-        containermodale.style.textAlign = 'center';
-        containermodale.style.justifyContent = 'center';
-        containermodale.style.display = 'flex';
-        containermodale.style.flexDirection = 'column';
-        containermodale.style.alignItems = 'center';
-        containermodale.style.width = largeurModale;
-        containermodale.style.height = hauteurModale; 
-        containermodale.style.boxShadow = "inset 0 0 20px midnightblue";
-        containermodale.style.borderRadius = "30px"
-        containermodale.style.background = "rgba(255, 255, 255, 0.99)"
-        containermodale.style.position = "absolute";
-        containermodale.style.left = '50%';
-        containermodale.style.top = '53%'
-        containermodale.style.transform = 'translate(-50%, -50%)';
-        containermodale.style.color = 'black';
-        containermodale.style.padding = "30px";
+        let modale = document.querySelector('#containerconfirmation');
 
         // Description de la validation
-        let messagealert = document.createElement('p');
-        messagealert.textContent = message;
-        messagealert.style.fontSize = '18px';
+        const messagealert = document.createElement('p');
+        messagealert.setAttribute('id', 'msgmodale');
+        messagealert.textContent = "Votre commande est bien prise en compte et a été ajoutée au panier.";
 
         // Lien continuer vos achats
-        let lienachat = document.createElement('div');
-        lienachat.style.display = displaylienachat;
+        const lienachat = document.createElement('div');
         lienachat.textContent = "Continuer vos achats";
         lienachat.style.color = "blue";
         lienachat.style.fontWeight = "600";
         lienachat.style.marginTop = '15px';
 
-        // Lien continuer vos achats
-        let lienindex = document.createElement('a');
-        lienindex.style.display = displaylienindex;
-        lienindex.href = "./index.html";
-        lienindex.textContent = "Continuer vos achats";
-        lienindex.style.color = "blue";
-        lienindex.style.fontWeight = "600";
-        lienindex.style.marginTop = '15px';
-        lienindex.style.textDecoration = "none";
-
         // Lien vers le panier
-        let lienpanier = document.createElement('a');
-        lienpanier.style.display = displaylienpanier;
+        const lienpanier = document.createElement('a');
         lienpanier.href = "./cart.html"
         lienpanier.textContent = "Accéder au panier";
         lienpanier.style.color = "blue";
@@ -210,8 +177,7 @@ export class Objfetch {
         lienpanier.style.marginTop = '15px';
 
         // Bouton fermer 
-        let buttonfermer = document.createElement('button');
-        buttonfermer.style.display = displaybuttonfermer;
+        const buttonfermer = document.createElement('button');
         buttonfermer.textContent = 'X';
         buttonfermer.style.cursor = 'pointer';
         buttonfermer.style.position = 'absolute';
@@ -225,9 +191,8 @@ export class Objfetch {
 
         // Gestionnaire d'évenements sur le lien achat
         lienachat.addEventListener('click', () =>{
-            containermodale.remove();
+            modale.remove();
         })
-
         lienachat.addEventListener('mouseover', () =>{
             lienachat.style.cursor = "pointer";
         })
@@ -243,39 +208,92 @@ export class Objfetch {
         })
 
         buttonfermer.addEventListener('click', () =>{
-            containermodale.remove();
+            modale.remove();
         })
+
+        modale.append(messagealert, lienachat, lienpanier, buttonfermer); 
+
+        // this.responsive();
+
+    }
+
+    structureinsidemodalepagepanier(){
+
+        let modale = document.querySelector('#containerconfirmation');
+    
+        // Description de la validation
+        const messagealert = document.createElement('p');
+        messagealert.setAttribute('id', 'msgmodale');
+        messagealert.textContent = "Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.";
+
+        // Lien continuer vos achats
+        const lienindex = document.createElement('a');
+        lienindex.href = "./index.html";
+        lienindex.textContent = "Continuer vos achats";
+        lienindex.style.color = "blue";
+        lienindex.style.fontWeight = "600";
+        lienindex.style.marginTop = '15px';
+        lienindex.style.textDecoration = "none";
+
+        modale.append(messagealert, lienindex); 
+        this.responsive();
+    }
+
+    structuremodale(parent, largeur, hauteur){
+
+        // Conteneur la confirmation
+        const containermodale = document.createElement('div');
+        containermodale.setAttribute('id', 'containerconfirmation');
+        containermodale.style.textAlign = 'center';
+        containermodale.style.justifyContent = 'center';
+        containermodale.style.display = 'flex';
+        containermodale.style.flexDirection = 'column';
+        containermodale.style.alignItems = 'center';
+        containermodale.style.width = largeur;
+        containermodale.style.height = hauteur; 
+        containermodale.style.boxShadow = "inset 0 0 20px midnightblue";
+        containermodale.style.borderRadius = "30px"
+        containermodale.style.background = "rgba(255, 255, 255, 0.99)"
+        containermodale.style.position = "absolute";
+        containermodale.style.left = '50%';
+        containermodale.style.top = '53%';
+        containermodale.style.transform = 'translate(-50%, -50%)';
+        containermodale.style.color = 'black';
+        containermodale.style.padding = "30px";
  
         // NODE
         parent.appendChild(containermodale)
-        containermodale.append(messagealert, lienachat, lienpanier, buttonfermer, lienindex); 
+    }
+
+    responsive(){
+
+        const media600plus = window.matchMedia("(min-width:600px)");
+        const media600moins = window.matchMedia("(max-width:600px)");
+        const message = document.querySelector('#msgmodale');
 
         window.addEventListener('load', function(){
 
             if(media600plus.matches){
                 console.log('plus');
-                messagealert.style.fontSize = '18px';
+                message.style.fontSize = '18px';
             }
             else if(media600moins.matches){
                 console.log('moins');
-                messagealert.style.fontSize = '16px';
+                message.style.fontSize = '16px';
             }
-
             window.addEventListener('resize', function(){        
 
                 if(media600plus.matches){
                     console.log('plus');
-                    messagealert.style.fontSize = '18px';
+                    message.style.fontSize = '18px';
                 }
                 else if(media600moins.matches){
                     console.log('moins');
-                    messagealert.style.fontSize = '16px';
+                    message.style.fontSize = '16px';
                 }
             });
         });  
-
     }
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -300,51 +318,48 @@ export class Panier{
     static add(produit){
         
         let panier = this.recupProd();
-        // Conversion de la quantité saisie d'une string en nombre
         let quantiteval = Number(quantity.value);
+        console.log(panier);
         
         let content = document.querySelector('.item__content');
-        content.style.position = "relative";;
-        let modale = new Objfetch().structuremodale(content, 'Votre commande est bien prise en compte et a été ajoutée au panier.', 'block', 'block', 'block', '80%', '35%', "none");
+        content.style.position = "relative";
         
-        // Si quantité saisie supérieure à 0 et inférieure à 101 et que la couleur saisie est bien renseignée
+        const modale = new Objfetch().structuremodale(content, "60%", "30%");
+        const contenumodale = new Objfetch().structureinsidemodalepageproduit();
+    
+        
         if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
-
             if (panier.length <= 0){ // Si Panier vide
-
-                // La quantité du produit est égale à la quantité saisie
+    
                 produit.quantity = quantiteval;
-                // On pousse la quantité dans le panier et on sauvegarde
                 panier.push(produit);
                 this.save(panier);
-                // Appel de la structure de confirmation
                 modale;
+                contenumodale;
                 
             }else{ // Panier contenant déjà 1 ou plusieurs produits
-                
-                // On recherche si le produit existe déjà dans le panier
                 let trouverProduit = panier.find(valeur => valeur.id == produit.id) && panier.find(valeur => valeur.color == produit.color);  
-                // Si le produit existe dans le panier
+                
                 if(trouverProduit !== undefined){
-                    // Si la quantité du produit existant + la quantité saisie n'excède pas les 100 unités
+                   
                     if (trouverProduit.quantity + quantiteval < 101){
-                        // alors la quantité saisie s'ajoute au produit existant et on sauvegarde
+                        
                         trouverProduit.quantity += quantiteval;
                         this.save(panier);
-                        // Appel de la structure de confirmation
                         modale;
+                        contenumodale;
            
                     }else{
                         alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
                     }
                 }else{
-                    // Si le produit n'existe pas déjà dans le panier alors le produit voit sa quantité égale à la quantité saisie
+                    
                     produit.quantity = quantiteval;
-                    // on pousse la valeur dans le panier et on le sauvegarde
                     panier.push(produit);
                     this.save(panier);
-                    // Appel de la structure de 
+                    
                     modale;
+                    contenumodale;
                 }          
             } 
         }else{

@@ -24,8 +24,9 @@ async function voirLesProduits(){
             quantity :  quantity.value,
         });
     });
-
+    
 }
-
 voirLesProduits();
+
+
 

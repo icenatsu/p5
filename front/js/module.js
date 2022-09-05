@@ -151,48 +151,57 @@ export class Objfetch {
         containerdelete.append(buttondelete);
     }
 
-    structureConfirmation(){
+    structuremodale(parent, message, displaylienachat, displaylienpanier, displaybuttonfermer, largeurModale, hauteurModale, displaylienindex){
 
-        // Selection de la div portant la classe content
-        let content = document.querySelector('.item__content');
-        content.style.position = "relative";
+        const media600plus = window.matchMedia("(min-width:600px)");
+        const media600moins = window.matchMedia("(max-width:600px)");
 
         // Conteneur la confirmation
-        let containerconfirmation = document.createElement('div');
-        containerconfirmation.setAttribute('id', 'containerconfirmation');
-        containerconfirmation.style.justifyContent = 'center';
-        containerconfirmation.style.display = 'flex';
-        containerconfirmation.style.flexDirection = 'column';
-        containerconfirmation.style.alignItems = 'center';
-        containerconfirmation.style.width = '80%';
-        containerconfirmation.style.height = '40%';
-        containerconfirmation.style.border = "1px solid transparent"
-        containerconfirmation.style.borderRadius = "30px"
-        containerconfirmation.style.background = "rgba(255, 255, 255, 0.99)"
-        containerconfirmation.style.position = "absolute";
-        containerconfirmation.style.left = '50%';
-        containerconfirmation.style.top = '53%'
-        containerconfirmation.style.transform = 'translate(-50%, -50%)';
-        containerconfirmation.style.color = 'black';
-        containerconfirmation.style.textAlign = 'center';
-        containerconfirmation.style.padding = "30px"
-        containerconfirmation.style.boxShadow = "5px 5px rgba(0, 0, 0, 0.3)"
+        let containermodale = document.createElement('div');
+        containermodale.setAttribute('id', 'containerconfirmation');
+        containermodale.style.textAlign = 'center';
+        containermodale.style.justifyContent = 'center';
+        containermodale.style.display = 'flex';
+        containermodale.style.flexDirection = 'column';
+        containermodale.style.alignItems = 'center';
+        containermodale.style.width = largeurModale;
+        containermodale.style.height = hauteurModale; 
+        containermodale.style.boxShadow = "inset 0 0 20px midnightblue";
+        containermodale.style.borderRadius = "30px"
+        containermodale.style.background = "rgba(255, 255, 255, 0.99)"
+        containermodale.style.position = "absolute";
+        containermodale.style.left = '50%';
+        containermodale.style.top = '53%'
+        containermodale.style.transform = 'translate(-50%, -50%)';
+        containermodale.style.color = 'black';
+        containermodale.style.padding = "30px";
 
         // Description de la validation
-        let validation = document.createElement('p');
-        validation.textContent = "Votre commande est bien prise en compte et a été ajoutée au panier.";
-        validation.style.fontSize = "19px";
+        let messagealert = document.createElement('p');
+        messagealert.textContent = message;
+        messagealert.style.fontSize = '18px';
 
         // Lien continuer vos achats
         let lienachat = document.createElement('div');
+        lienachat.style.display = displaylienachat;
         lienachat.textContent = "Continuer vos achats";
         lienachat.style.color = "blue";
         lienachat.style.fontWeight = "600";
         lienachat.style.marginTop = '15px';
 
+        // Lien continuer vos achats
+        let lienindex = document.createElement('a');
+        lienindex.style.display = displaylienindex;
+        lienindex.href = "./index.html";
+        lienindex.textContent = "Continuer vos achats";
+        lienindex.style.color = "blue";
+        lienindex.style.fontWeight = "600";
+        lienindex.style.marginTop = '15px';
+        lienindex.style.textDecoration = "none";
 
         // Lien vers le panier
         let lienpanier = document.createElement('a');
+        lienpanier.style.display = displaylienpanier;
         lienpanier.href = "./cart.html"
         lienpanier.textContent = "Accéder au panier";
         lienpanier.style.color = "blue";
@@ -202,10 +211,12 @@ export class Objfetch {
 
         // Bouton fermer 
         let buttonfermer = document.createElement('button');
+        buttonfermer.style.display = displaybuttonfermer;
         buttonfermer.textContent = 'X';
+        buttonfermer.style.cursor = 'pointer';
         buttonfermer.style.position = 'absolute';
-        buttonfermer.style.top = '15px';
-        buttonfermer.style.right = '15px';
+        buttonfermer.style.top = '20px';
+        buttonfermer.style.right = '20px';
         buttonfermer.style.color = "red";
         buttonfermer.style.border = "2px solid red"
         buttonfermer.style.borderRadius = "50%";
@@ -214,7 +225,7 @@ export class Objfetch {
 
         // Gestionnaire d'évenements sur le lien achat
         lienachat.addEventListener('click', () =>{
-            containerconfirmation.remove();
+            containermodale.remove();
         })
 
         lienachat.addEventListener('mouseover', () =>{
@@ -232,55 +243,39 @@ export class Objfetch {
         })
 
         buttonfermer.addEventListener('click', () =>{
-            containerconfirmation.remove();
+            containermodale.remove();
         })
-
+ 
         // NODE
-        content.appendChild(containerconfirmation)
-        containerconfirmation.append(validation, lienachat, lienpanier, buttonfermer);
+        parent.appendChild(containermodale)
+        containermodale.append(messagealert, lienachat, lienpanier, buttonfermer, lienindex); 
+
+        window.addEventListener('load', function(){
+
+            if(media600plus.matches){
+                console.log('plus');
+                messagealert.style.fontSize = '18px';
+            }
+            else if(media600moins.matches){
+                console.log('moins');
+                messagealert.style.fontSize = '16px';
+            }
+
+            window.addEventListener('resize', function(){        
+
+                if(media600plus.matches){
+                    console.log('plus');
+                    messagealert.style.fontSize = '18px';
+                }
+                else if(media600moins.matches){
+                    console.log('moins');
+                    messagealert.style.fontSize = '16px';
+                }
+            });
+        });  
+
     }
 
-    structurePanierVide(){
-        let containerpanier = document.querySelector('#cartAndFormContainer');
-        containerpanier.style.position = "relative";
-        
-        let containerpaniervide = document.createElement('div');
-        containerpaniervide.setAttribute('id', 'paniervide');
-        containerpaniervide.style.display = "flex";
-        containerpaniervide.style.flexDirection = "column";
-        containerpaniervide.style.justifyContent = "center";
-        containerpaniervide.style.alignItems = "center";
-        containerpaniervide.style.width = '45%';
-        containerpaniervide.style.height = '20%';
-        containerpaniervide.style.border = '1px solid transparent';
-        containerpaniervide.style.borderRadius = '30px'
-        containerpaniervide.style.background = "white"
-        containerpaniervide.style.position = "absolute";
-        containerpaniervide.style.top = '100px';
-        containerpaniervide.style.left = '50%';
-        containerpaniervide.style.transform = 'translateX(-50%)';
-        containerpaniervide.style.padding = "10px";
-
-        let descriptionpaniervide = document.createElement('p');
-        descriptionpaniervide.textContent = "Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.";
-        descriptionpaniervide.style.color = "black";
-        descriptionpaniervide.style.textAlign = "center";
-
-        let lienachat = document.createElement('a');
-        lienachat.href = "./index.html";
-        lienachat.textContent = "Catalogue des canapés";
-        lienachat.style.textDecoration = "none";
-        lienachat.style.color = "blue";
-        lienachat.style.fontWeight = "600";
-
-        let cartprice = document.querySelector('.cart__price');
-        // cartprice.style.display = "none";
-
-
-        // NODE
-        containerpanier.append(containerpaniervide);
-        containerpaniervide.append(descriptionpaniervide, lienachat);
-    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -308,6 +303,10 @@ export class Panier{
         // Conversion de la quantité saisie d'une string en nombre
         let quantiteval = Number(quantity.value);
         
+        let content = document.querySelector('.item__content');
+        content.style.position = "relative";;
+        let modale = new Objfetch().structuremodale(content, 'Votre commande est bien prise en compte et a été ajoutée au panier.', 'block', 'block', 'block', '80%', '35%', "none");
+        
         // Si quantité saisie supérieure à 0 et inférieure à 101 et que la couleur saisie est bien renseignée
         if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
 
@@ -319,8 +318,8 @@ export class Panier{
                 panier.push(produit);
                 this.save(panier);
                 // Appel de la structure de confirmation
-                new Objfetch().structureConfirmation();
-
+                modale;
+                
             }else{ // Panier contenant déjà 1 ou plusieurs produits
                 
                 // On recherche si le produit existe déjà dans le panier
@@ -333,7 +332,7 @@ export class Panier{
                         trouverProduit.quantity += quantiteval;
                         this.save(panier);
                         // Appel de la structure de confirmation
-                        new Objfetch().structureConfirmation();
+                        modale;
            
                     }else{
                         alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
@@ -345,7 +344,7 @@ export class Panier{
                     panier.push(produit);
                     this.save(panier);
                     // Appel de la structure de 
-                    new Objfetch().structureConfirmation();
+                    modale;
                 }          
             } 
         }else{

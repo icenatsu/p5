@@ -1,9 +1,16 @@
 import {Objfetch, Panier, ValidationFormulaire} from "./module.js";
-
+ 
 // Récupétation du panier
 let panier = Panier.recupProd();
+let containerpanier = document.querySelector('#cartAndFormContainer');
+containerpanier.style.position = "relative";
+let formulaire = document.querySelector('.cart__order__form');
+let carteprice = document.querySelector('.cart__price');
+
 if(panier == [] || panier == ''){
-    new Objfetch().structurePanierVide();
+    new Objfetch().structuremodale(containerpanier, 'Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.', "none", "none", "none", '60%', '100%', "inline");  
+    formulaire.style.display = "none";
+    carteprice.style.display = "none";
 }
 
 // Boucle sur la panier
@@ -44,7 +51,9 @@ buttondelete.forEach(element => {
         Panier.nbreArticleDuPanier();
         let panier = Panier.recupProd();
         if(panier == [] || panier == ''){
-            new Objfetch().structurePanierVide();
+            new Objfetch().structuremodale(containerpanier, 'Votre panier est vide. Veuillez consulter notre catalogue en ligne pour effectuer vos achats.', "none", "none", "none", '60%', '100%', "inline");  
+            formulaire.style.display = "none";
+            carteprice.style.display = "none";
         }
     });
 });
@@ -75,12 +84,6 @@ buttoncommande.addEventListener('click', (e) =>{
     let panier = Panier.recupProd();
 
     if(panier == [] || panier == ''){
-
-        let containerpaniervide = document.querySelector('#paniervide') 
-        containerpaniervide.style.transition = '0.5s';
-        containerpaniervide.style.color = "rgba(255, 58, 0, 0.8)";
-        containerpaniervide.style.border = "2px dashed blue";
-
 
         firstName.value = "";
         lastName.value = "";

@@ -1,4 +1,5 @@
 import {Objfetch, Panier, ValidationFormulaire} from "./module.js";
+const obj = new Objfetch();
  
 // Récupétation du panier
 let panier = Panier.recupProd();
@@ -11,10 +12,10 @@ let carteprice = document.querySelector('.cart__price');
 // new Objfetch().responsive();
 
 if(panier == [] || panier == ''){
-    new Objfetch().structuremodale(containerpanier, "60%", "100%");
+    obj.structuremodale(containerpanier, "60%", "100%");
     formulaire.style.display = "none";
     carteprice.style.display = "none";
-    new Objfetch().structureinsidemodalepagepanier();
+    obj.structureinsidemodalepagepanier();
 }
 
 // Boucle sur la panier
@@ -55,10 +56,10 @@ buttondelete.forEach(element => {
         Panier.nbreArticleDuPanier();
         let panier = Panier.recupProd();
         if(panier == [] || panier == ''){
-            new Objfetch().structuremodale(containerpanier, "60%", "100%");
+            obj.structuremodale(containerpanier, "60%", "100%");
             formulaire.style.display = "none";
             carteprice.style.display = "none";
-            new Objfetch().structureinsidemodalepagepanier();
+            obj.structureinsidemodalepagepanier();
         }
     });
 });

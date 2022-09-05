@@ -213,8 +213,7 @@ export class Objfetch {
 
         modale.append(messagealert, lienachat, lienpanier, buttonfermer); 
 
-        // this.responsive();
-
+        this.responsive();
     }
 
     structureinsidemodalepagepanier(){
@@ -271,7 +270,6 @@ export class Objfetch {
         const media600moins = window.matchMedia("(max-width:600px)");
         const message = document.querySelector('#msgmodale');
 
-        window.addEventListener('load', function(){
 
             if(media600plus.matches){
                 console.log('plus');
@@ -281,6 +279,7 @@ export class Objfetch {
                 console.log('moins');
                 message.style.fontSize = '16px';
             }
+
             window.addEventListener('resize', function(){        
 
                 if(media600plus.matches){
@@ -292,7 +291,6 @@ export class Objfetch {
                     message.style.fontSize = '16px';
                 }
             });
-        });  
     }
 }
 
@@ -319,14 +317,10 @@ export class Panier{
         
         let panier = this.recupProd();
         let quantiteval = Number(quantity.value);
-        console.log(panier);
         
         let content = document.querySelector('.item__content');
         content.style.position = "relative";
-        
-        const modale = new Objfetch().structuremodale(content, "60%", "30%");
-        const contenumodale = new Objfetch().structureinsidemodalepageproduit();
-    
+        let obj = new Objfetch();
         
         if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
             if (panier.length <= 0){ // Si Panier vide
@@ -334,8 +328,8 @@ export class Panier{
                 produit.quantity = quantiteval;
                 panier.push(produit);
                 this.save(panier);
-                modale;
-                contenumodale;
+                obj.structuremodale(content, "60%", "30%");
+                obj.structureinsidemodalepageproduit();
                 
             }else{ // Panier contenant déjà 1 ou plusieurs produits
                 let trouverProduit = panier.find(valeur => valeur.id == produit.id) && panier.find(valeur => valeur.color == produit.color);  
@@ -346,8 +340,8 @@ export class Panier{
                         
                         trouverProduit.quantity += quantiteval;
                         this.save(panier);
-                        modale;
-                        contenumodale;
+                        obj.structuremodale(content, "60%", "30%");
+                        obj.structureinsidemodalepageproduit();
            
                     }else{
                         alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");
@@ -358,8 +352,8 @@ export class Panier{
                     panier.push(produit);
                     this.save(panier);
                     
-                    modale;
-                    contenumodale;
+                    obj.structuremodale(content, "60%", "30%");
+                    obj.structureinsidemodalepageproduit();
                 }          
             } 
         }else{

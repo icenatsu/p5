@@ -248,7 +248,7 @@ export class Obj {
         //    => Assignations des valeurs pour créer le design du contenu de la     //
         //       modale                                                             //
         //    => Rattachement du contenu de la modale à la modale                   //
-        //    => Appel de la fonction responsive                                    //
+        //    => Appel de la méthode responsive                                     //
         //////////////////////////////////////////////////////////////////////////////
 
         let modale = document.querySelector('#containerconfirmation');
@@ -325,7 +325,7 @@ export class Obj {
         //    => Assignations des valeurs pour créer le design du contenu de la     //
         //       modale                                                             //
         //    => Rattachement du contenu de la modale à la modale                   //
-        //    => Appel de la fonction responsive                                    //
+        //    => Appel de la méthode responsive                                     //
         //////////////////////////////////////////////////////////////////////////////
 
         let modale = document.querySelector('#containerconfirmation');

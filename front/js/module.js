@@ -450,7 +450,7 @@ export class Panier{
                 produit.quantity = quantiteval;
                 panier.push(produit);
                 this.save(panier);
-                obj.structuremodale(content, "60%", "30%");
+                obj.structuremodale(content, "70%", "35%");
                 obj.structureinsidemodalepageproduit();
             }else{ 
                 let trouverProduit = panier.find(valeur => valeur.id == produit.id) && panier.find(valeur => valeur.color == produit.color);  
@@ -458,14 +458,14 @@ export class Panier{
                     if (trouverProduit.quantity + quantiteval < 101){
                         trouverProduit.quantity += quantiteval;
                         this.save(panier);
-                        obj.structuremodale(content, "60%", "30%");
+                        obj.structuremodale(content, "70%", "35%");
                         obj.structureinsidemodalepageproduit();
                     }else{alert("Votre panier ne peut contenir qu'un maximum de 100 unités par article");}
                 }else{
                     produit.quantity = quantiteval;
                     panier.push(produit);
                     this.save(panier);
-                    obj.structuremodale(content, "60%", "30%");
+                    obj.structuremodale(content, "70%", "35%");
                     obj.structureinsidemodalepageproduit();
                 }          
             } 

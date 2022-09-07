@@ -396,10 +396,10 @@ export class Panier{
     // Recupération des produits du localstorage
     /*******************************************/
     static recupProd(){
+        
         // Renvoie un tableau si le panier est vide
         // sinon
         // Retourne la construction de l'objet javascript du format JSON 
-
         let panier = localStorage.getItem(nomLS);
         return (panier != null) ? JSON.parse(panier) : [];
     }
@@ -407,6 +407,7 @@ export class Panier{
     // Enregistrer le panier dans le localstorage
     /*******************************************/
     static save(panier) {
+        
         // Envoie de l'objet javascript au localstorage au format JSON (chaine de caractères)
         localStorage.setItem(nomLS, JSON.stringify(panier));
     }

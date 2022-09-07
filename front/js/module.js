@@ -614,16 +614,17 @@ export class ValidationFormulaire{
         if(!testfirstname){
             contactvalid = false;
             firstName.nextElementSibling.textContent = "Le prénom doit comporter 1 lettre minimum sans chiffres merci !!!";
-            
         }else{
             firstName.nextElementSibling.textContent = "";
         }
+
         if(!testlastname){
             contactvalid = false;
             lastName.nextElementSibling.textContent = "Le nom doit comporter 1 lettre minimum sans chiffres merci !!!";
         }else{
             lastName.nextElementSibling.textContent = ""; 
         }
+
         if(!testaddress){
             contactvalid = false;
             address.nextElementSibling.textContent = "Merci de renseigner une adresse valide, max 50 caractères";
@@ -631,12 +632,14 @@ export class ValidationFormulaire{
         else{
             address.nextElementSibling.textContent = "";
         }
+
         if(!testcity){
             contactvalid = false;
             city.nextElementSibling.textContent = "Merci de renseigner votre lieu d'habitation";
         }else{
             city.nextElementSibling.textContent = "";
         }
+        
         if(!testemail){
             contactvalid = false;
             email.nextElementSibling.textContent = "Email non valide";

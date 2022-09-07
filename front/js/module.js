@@ -358,7 +358,7 @@ export class Obj {
         //    => largeur maximale de 600px                            //
         //    => Gestion du responsive des élements                   //
         //       en fonction de la taille et du redimentionnement     //
-        //       de la taille de la fenêtre du navigateur             //       
+        //       de la fenêtre du navigateur                          //       
         ////////////////////////////////////////////////////////////////
 
         const media600plus = window.matchMedia("(min-width:600px)");

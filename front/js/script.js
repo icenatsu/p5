@@ -6,7 +6,6 @@ afficherLesProduits();
 async function afficherLesProduits(){
    // Récupération de l'objet suite à l'appel de fetch
    let reponse = await Obj.configFetchGet('');
-   console.log(reponse);
 
    // Appel de la création de structure 
    reponse.structureProdIndex();

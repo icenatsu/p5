@@ -116,13 +116,12 @@ buttoncommande.addEventListener('click', (e) =>{
 
         for (let i = 0; i < panier.length; i++) {
             products.push((panier[i].id));
-            console.log(products);
-        
+
             let order = {
                 contact: contact,
                 products : products
             };
-            console.log(order);
+            
             envoyerLaCommande(order);
         }          
         }else{

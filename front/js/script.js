@@ -1,11 +1,14 @@
-import {Objfetch} from './module.js';
+// Importation de la classe
+import {Obj} from './module.js';
 
 afficherLesProduits();
-// Appel fetch
-async function afficherLesProduits(){
-   // Appel fetch et assigne le résultat à un objet
-   let reponse = await Objfetch.recupConfig('');
 
-   // Création de la structure
+async function afficherLesProduits(){
+   // Récupération de l'objet suite à l'appel de fetch
+   let reponse = await Obj.configFetchGet('');
+   console.log(reponse);
+
+   // Appel de la création de structure 
    reponse.structureProdIndex();
 }
+

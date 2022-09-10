@@ -1,5 +1,5 @@
 // Importation des classes
-import {Obj, Panier, ValidationFormulaire} from "./module.js";
+import {Obj, Panier, Formulaire} from "./module.js";
 
 // Récupération du panier
 // Nouvelle instance Obj()
@@ -30,6 +30,7 @@ if(panier == [] || panier == ''){
 for (const key in panier) {
    
     let reponse = await Obj.configFetchGet(panier[key].id);
+    
     reponse.color = panier[key].color;
     reponse.quantity = panier[key].quantity;
     reponse.structureProdPageCart();
@@ -94,9 +95,6 @@ buttondelete.forEach(element => {
 
 // FORMULAIRE /////////////////////////////////////////////////////////////
 
-// Initialisation du produit à un tableau
-
-
 // Sélection du bouton Commander et evenement au click
 // Déclaration nouvelle instance retournant un objet avec les valeurs des champs input
 // Attribution des valeurs saisies des inputs à l'objet contact
@@ -108,8 +106,9 @@ buttondelete.forEach(element => {
 // Sinon message d'alerte
 const buttoncommande = document.querySelector('#order');
 buttoncommande.addEventListener('click', (e) =>{
+    
     e.preventDefault();
-    let contact = new ValidationFormulaire;
+    let contact = new Formulaire;
     let products = [];
 
         if(contact.valid()){

@@ -7,9 +7,9 @@ export class Obj {
     // Si la réponse de l'api est vrai                                                                  //
     //  => reponse.json() : transformation du flux au format json => promesse                           //
     //  => promesse tenue => fulfilled                                                                  //
-    //  => await reponse.json() : analyse de la promise pour retourner une variable javascript          //
-    //  => Object.assign(objet, await reponse.json()) => {{reponse}{reponse}....}                       //
-    //  => Retourne donc chacune des réponses dans un objet, elles mêmes contenues dans un objet global //
+    //      => await reponse.json() : analyse de la promise pour retourner une variable javascript      //
+    //      => Object.assign(objet, await reponse.json()) =>   (target / cible)                         //
+    //      => Retourne donc la réponse de l'api dans un objet                                          //
     // Si la réponse de l'api est fausse                                                                //
     // => reponse.json() : transformation du flux au format json => promesse                            //
     // => promesse non tenue => rejected                                                                //                                                               
@@ -28,9 +28,9 @@ export class Obj {
     // Si la réponse de l'api est vrai                                                                  //
     //  => reponse.json() : transformation du flux au format json => promesse                           //
     //  => promesse tenue => fulfilled                                                                  //
-    //  => await reponse.json() : analyse de la promise pour retourner une variable javascript          //
-    //  => Object.assign(objet, await reponse.json()) => {{reponse}{reponse}....}                       //
-    //  => Retourne donc chacune des réponses dans un objet, elles mêmes contenues dans un objet global //
+    //      => await reponse.json() : analyse de la promise pour retourner une variable javascript      //
+    //      => Object.assign(objet, await reponse.json()) =>  (target / cible)                          //
+    //      => Retourne donc la réponse de l'api dans un objet                                          //
     // Si la réponse de l'api est fausse                                                                //
     // => reponse.json() : transformation du flux au format json => promesse                            //
     // => promesse non tenue => rejected                                                                //                                                               
@@ -85,7 +85,6 @@ export class Obj {
             lienkanap.append(article);
             article.append(imgkanap, namekanap, description); 
         }
-
     }
 
     // Structure de l'affichage du produit sélectionné de la page product.html
@@ -352,14 +351,10 @@ export class Obj {
     /*******************************************/
     responsive(){
 
-        ////////////////////////////////////////////////////////////////
-        // Déclarations des medias                                    // 
-        //    => largeur minimale de 600px                            //
-        //    => largeur maximale de 600px                            //
-        //    => Gestion du responsive des élements                   //
-        //       en fonction de la taille et du redimentionnement     //
-        //       de la fenêtre du navigateur                          //       
-        ////////////////////////////////////////////////////////////////
+        // Déclaration des médias
+        // Déclaration de la modale via son id
+        // Changement du style message de la modale selon le format de la fenetre 
+        // du navigateur et de son redimentionnement
 
         const media600plus = window.matchMedia("(min-width:600px)");
         const media600moins = window.matchMedia("(max-width:600px)");
@@ -407,7 +402,6 @@ export class Panier{
     // Enregistrer le panier dans le localstorage
     /*******************************************/
     static save(panier) {
-        
         // Envoie de l'objet javascript au localstorage au format JSON (chaine de caractères)
         localStorage.setItem(nomLS, JSON.stringify(panier));
     }
@@ -442,7 +436,7 @@ export class Panier{
         let quantiteval = Number(quantity.value);
         let content = document.querySelector('.item__content');
         content.style.position = "relative";
-        let obj = new Obj();
+        const obj = new Obj();
         
         if((quantiteval > 0 && quantiteval < 101) && (colors.value != "")){
             
@@ -470,49 +464,8 @@ export class Panier{
                 }          
             } 
         }else{alert(`Veuillez entrer une quantité comprise entre 1 et 100 ainsi qu'une couleur.`)} 
-    }   
-
-    // Prix total du panier
-    /**********************/
-    static async prixTotalDuPanier(){
-
-        // Récupération des produit du localstorage
-        // Initialitation du prix total à 0
-        // Boucle sur la panier
-        // => Récupération de l'objet suite à l'appel de fetch
-        // => Calcul du prix total en fonction des quantités du localstorage et des prix de l'objet
-        // Affichage du prix total dans le dom
-
-        let panier = this.recupProd();
-        let prixtotal = 0;
-     
-        for (const key in panier) {
-            let recupreponsefetch = await Obj.configFetchGet(panier[key].id);
-            prixtotal += panier[key].quantity*recupreponsefetch.price;
-        }
-        
-        return document.querySelector('#totalPrice').textContent = prixtotal; 
-    }
-
-    // Nbre d'articles totaux du panier
-    /**********************************/
-    static nbreArticleDuPanier(){
-        
-        // Récupération des produit du localstorage
-        // Initialitation de la quantité totale à 0
-        // Boucle sur la panier
-        // => Calcul de la quantité totale en fonction des quantités des produits récupérées dans le localstorage
-        // Affichage de la quantité totale dans le dom
-        
-        let panier = this.recupProd();
-        let totalquantity = 0;
-     
-        for (const key in panier) {
-            totalquantity += panier[key].quantity;
-        }
-        return document.querySelector('#totalQuantity').textContent = totalquantity; 
-    }
-
+    }  
+    
     // Changer la quantité d'un produit
     /**********************************/ 
     static changeQuantite(input, quantity, id, color){
@@ -560,6 +513,47 @@ export class Panier{
         this.save(panier);
     }
 
+    // Nbre d'articles totaux du panier
+    /**********************************/
+    static nbreArticleDuPanier(){
+        
+        // Récupération des produit du localstorage
+        // Initialitation de la quantité totale à 0
+        // Boucle sur la panier
+        // => Calcul de la quantité totale en fonction des quantités des produits récupérées dans le localstorage
+        // Affichage de la quantité totale dans le dom
+        
+        let panier = this.recupProd();
+        let totalquantity = 0;
+     
+        for (const key in panier) {
+            totalquantity += panier[key].quantity;
+        }
+        return document.querySelector('#totalQuantity').textContent = totalquantity; 
+    }
+
+    // Prix total du panier
+    /**********************/
+    static async prixTotalDuPanier(){
+
+        // Récupération des produit du localstorage
+        // Initialitation du prix total à 0
+        // Boucle sur la panier
+        // => Récupération de l'objet suite à l'appel de fetch
+        // => Calcul du prix total en fonction des quantités du localstorage et des prix de l'objet
+        // Affichage du prix total dans le dom
+
+        let panier = this.recupProd();
+        let prixtotal = 0;
+     
+        for (const key in panier) {
+            let recupreponsefetch = await Obj.configFetchGet(panier[key].id);
+            prixtotal += panier[key].quantity*recupreponsefetch.price;
+        }
+        
+        return document.querySelector('#totalPrice').textContent = prixtotal; 
+    }
+
     // vide le panier
     /***************/
     static viderLePanier(){
@@ -568,10 +562,10 @@ export class Panier{
 }
 
 /////////////////////////////////////////////////////////////////////////////////
-//////////////// VALIDATION FORMULAIRE //////////////////////////////////////////
+/////////////////////////// FORMULAIRE //////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 
-export class ValidationFormulaire{
+export class Formulaire{
     // Construction de l'objet du formulaire comprenant les valeurs des input (sélectionnable directement par leurs ids)
     constructor(){
 
@@ -586,8 +580,6 @@ export class ValidationFormulaire{
 
     // Phase de test des champs input du formulaire
     /**********************************************/
-    valid(){
-
         // Déclaration des regex
         // Test des différents champs input en fonction des regex
         // Initialisation de contactvalid à true
@@ -596,7 +588,9 @@ export class ValidationFormulaire{
         //    => Message d'erreur dans les éléments du dom prévu à cet effet
         // sinon si le test est vrai
         //    => valeur vide renvoyée dans les éléments du dom prévu à cet effet
-        // Retourne contactvalid qui ne sera vrai que si toutes les conditions sont vraies. 
+        // Retourne contactvalid qui ne sera vrai que si tous les tests via les regex ont été validés 
+
+    valid(){
 
         let regexFirstnameandLastname = /^([a-zA-Z àâäéèêëïîôöùûüç,.'-]{1,20}-{0,1})?([a-zA-Z àâäéèêëïîôöùûüç,.'-]{3,20})$/;
         let regexAddress = /^[a-zA-Z0-9 àâäéèêëïîôöùûüçs,'-]{5,50}$/;
